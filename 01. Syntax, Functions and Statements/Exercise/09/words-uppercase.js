@@ -1,7 +1,6 @@
 function solve(text) {
-    const regex = /[^\w\s]/g;
-    text = text.replaceAll(regex, ' ');
-    console.log(text.split(/\s+/).filter(e => e).map(w => w.toUpperCase()).join(', '));
+    const regex = /\w+/g;
+    console.log(text.match(regex).map(w => w.toUpperCase()).join(', '));
 }
 
 solve('Hi, How are you?');
