@@ -1,5 +1,6 @@
 function solve(arr) {
-    const biggestHalf = arr.sort((f, s) => f < s ? -1 : f === s ? 0 : 1)
+    const biggestHalf = arr
+        .sort((f, s) => (f < s ? -1 : f === s ? 0 : 1))
         .slice(arr.length / 2, arr.length);
     return biggestHalf;
 }

@@ -7,7 +7,7 @@ function solve(arr) {
             updatedArr.unshift(el);
         }
     }
-   console.log(updatedArr.join('\n'));
+    console.log(updatedArr.join("\n"));
 }
 
 solve([7, -2, 8, 9]);
