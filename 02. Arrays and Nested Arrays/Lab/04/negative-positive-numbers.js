@@ -1,10 +1,10 @@
-function solve(arr) {
+function solve(elementes) {
     const updatedArr = [];
-    for (const el of arr) {
-        if (el >= 0) {
-            updatedArr.push(el);
+    for (const element of elementes) {
+        if (element >= 0) {
+            updatedArr.push(element);
         } else {
-            updatedArr.unshift(el);
+            updatedArr.unshift(element);
         }
     }
     console.log(updatedArr.join("\n"));

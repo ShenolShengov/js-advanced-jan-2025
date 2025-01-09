@@ -1,5 +1,5 @@
-function solve(arr) {
-    return arr
+function solve(elements) {
+    return elements
         .filter((_, index) => index % 2 !== 0)
         .map((e) => e * 2)
         .reverse();

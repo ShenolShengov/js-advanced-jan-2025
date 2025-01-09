@@ -1,5 +1,5 @@
-function solve(arr) {
-    return +arr.shift() + +arr.pop();
+function solve(elements) {
+    return +elements.shift() + +elements.pop();
 }
 
 solve([20, 40, 60]);

@@ -1,6 +1,6 @@
-function solve(arr) {
-    const twoSmallestNum = arr
-        .sort((f, s) => (f < s ? -1 : f === s ? 0 : 1))
+function solve(elements) {
+    const twoSmallestNum = elements
+        .sort((first, second) => (first < second ? -1 : first === second ? 0 : 1))
         .slice(0, 2);
     console.log(twoSmallestNum.join(" "));
 }
