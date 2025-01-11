@@ -6,7 +6,7 @@ function solve(row, col) {
 
     let rowStep = 0;
     let colStep = 1;
-    let currentDirection = "right";
+    let currentDirection = 'right';
 
     for (let i = 0; i < row * col; i++) {
         matrix[rowIndex][colIndex] = i + 1;
@@ -26,7 +26,7 @@ function solve(row, col) {
 
     function printMatrix(matrix) {
         for (const row of matrix) {
-            console.log(row.join(" "));
+            console.log(row.join(' '));
         }
     }
 
@@ -37,25 +37,25 @@ function solve(row, col) {
 
     function changeDirection(currentDirection) {
         switch (currentDirection) {
-            case "up": {
+            case 'up': {
                 colStep = 1;
                 rowStep = 0;
-                return "right";
+                return 'right';
             }
-            case "down": {
+            case 'down': {
                 colStep = -1;
                 rowStep = 0;
-                return "left";
+                return 'left';
             }
-            case "left": {
+            case 'left': {
                 colStep = 0;
                 rowStep = -1;
-                return "up";
+                return 'up';
             }
-            case "right": {
+            case 'right': {
                 colStep = 0;
                 rowStep = 1;
-                return "down";
+                return 'down';
             }
         }
     }

@@ -3,7 +3,7 @@ function solve(arr) {
     const inverseSum = arr
         .map((n) => 1 / n)
         .reduce((sum, current) => sum + current, 0);
-    const concatenedNumbers = arr.join("");
+    const concatenedNumbers = arr.join('');
     console.log(sum);
     console.log(inverseSum);
     console.log(concatenedNumbers);

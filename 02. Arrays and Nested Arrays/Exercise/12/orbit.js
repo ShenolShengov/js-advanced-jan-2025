@@ -35,7 +35,7 @@ function solve(input) {
     }
 
     for (const row of matrix) {
-        console.log(row.join(" "));
+        console.log(row.join(' '));
     }
 
     function createEmptyMatrix(rows, cols) {

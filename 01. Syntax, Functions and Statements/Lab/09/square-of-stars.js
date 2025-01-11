@@ -1,6 +1,6 @@
 function solve(number = 5) {
     for (let index = 1; index <= number; index++) {
-        console.log("* ".repeat(number));
+        console.log('* '.repeat(number));
     }
 }
 

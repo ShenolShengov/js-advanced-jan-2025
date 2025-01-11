@@ -12,7 +12,7 @@ function solve(elements) {
             result = first.toLowerCase().localeCompare(second.toLowerCase());
         return result;
     });
-    console.log(elements.join("\n"));
+    console.log(elements.join('\n'));
 }
 
-solve(["alpha", "beta", "gamma"]);
+solve(['alpha', 'beta', 'gamma']);

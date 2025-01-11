@@ -6,5 +6,5 @@ function solve(n, m) {
     console.log(sum);
 }
 
-solve("1", "5");
-solve("-8", "20");
+solve('1', '5');
+solve('-8', '20');

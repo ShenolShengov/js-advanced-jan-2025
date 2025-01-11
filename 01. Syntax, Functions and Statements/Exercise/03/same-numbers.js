@@ -6,7 +6,7 @@ function solve(number) {
         const currentDigit = number % 10;
         sum += currentDigit;
         number = Math.floor(number / 10);
-        if(firstDigit !== currentDigit) isSameNumbers = false;
+        if (firstDigit !== currentDigit) isSameNumbers = false;
     }
     console.log(isSameNumbers);
     console.log(sum);

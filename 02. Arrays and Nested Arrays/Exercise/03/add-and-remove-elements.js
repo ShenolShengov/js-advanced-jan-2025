@@ -3,7 +3,7 @@ function solve(commands) {
 
     const numbers = [];
     for (const command of commands) {
-        if (command === "add") {
+        if (command === 'add') {
             numbers.push(currentNumber);
         } else {
             numbers.pop();
@@ -11,11 +11,11 @@ function solve(commands) {
         currentNumber++;
     }
 
-    console.log(numbers.length !== 0 ? numbers.join("\n") : "Empty");
+    console.log(numbers.length !== 0 ? numbers.join('\n') : 'Empty');
 }
 
-solve(["add", "add", "add", "add"]);
+solve(['add', 'add', 'add', 'add']);
 
-solve(["add", "add", "remove", "add", "add"]);
+solve(['add', 'add', 'remove', 'add', 'add']);
 
-solve(["remove", "remove", "remove"]);
+solve(['remove', 'remove', 'remove']);

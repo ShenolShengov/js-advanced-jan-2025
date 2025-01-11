@@ -4,5 +4,5 @@ function solve(input) {
     console.log(input);
 }
 
-solve("Hello, JavaScript!");
-solve("strings are easy");
+solve('Hello, JavaScript!');
+solve('strings are easy');

@@ -46,57 +46,57 @@ function solve(moves) {
 
     moves = moves.slice(0, 9);
 
-    let playerToMove = "X";
+    let playerToMove = 'X';
     let isDraw = true;
     let currentGameState;
 
     for (const move of moves) {
-        const [row, col] = move.split(" ").map((e) => +e);
+        const [row, col] = move.split(' ').map((e) => +e);
 
         const validMove = !board[row][col];
 
         if (!validMove) {
-            console.log("This place is already taken. Please choose another!");
+            console.log('This place is already taken. Please choose another!');
             continue;
         }
 
         board[row][col] = playerToMove;
 
-        playerToMove = playerToMove === "X" ? "O" : "X";
+        playerToMove = playerToMove === 'X' ? 'O' : 'X';
 
         currentGameState = getGameState(board);
-        if (currentGameState !== "Draw!") {
+        if (currentGameState !== 'Draw!') {
             isDraw = false;
             break;
         }
     }
 
     if (isDraw) {
-        console.log("The game ended! Nobody wins :(");
+        console.log('The game ended! Nobody wins :(');
     } else {
         console.log(currentGameState);
     }
 
     for (const row of board) {
-        console.log(row.join("\t"));
+        console.log(row.join('\t'));
     }
 
     function getGameState(board) {
-        let message = "Draw!";
+        let message = 'Draw!';
 
         possiblePositionsForWins
             .map((pRow) =>
                 pRow
                     .map((p) => board[p[0]][p[1]])
-                    .reduce((acc, postionSymbol) => (acc += postionSymbol), "")
+                    .reduce((acc, postionSymbol) => (acc += postionSymbol), '')
             )
             .forEach((row) => {
-                if (row === "XXX") {
-                    message = "Player X wins!";
+                if (row === 'XXX') {
+                    message = 'Player X wins!';
                     return;
                 }
-                if (row === "OOO") {
-                    message = "Player O wins!";
+                if (row === 'OOO') {
+                    message = 'Player O wins!';
                     return;
                 }
             });
@@ -115,4 +115,4 @@ function solve(moves) {
     }
 }
 
-solve(["0 1", "0 0", "0 2", "2 0", "1 0", "1 1", "1 2", "2 2", "2 1", "0 0"]);
+solve(['0 1', '0 0', '0 2', '2 0', '1 0', '1 1', '1 2', '2 2', '2 1', '0 0']);

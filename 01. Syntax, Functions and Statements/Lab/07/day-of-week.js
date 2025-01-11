@@ -1,25 +1,25 @@
 function solve(dayOfWeek) {
     let number;
 
-    if (dayOfWeek === "Monday") {
+    if (dayOfWeek === 'Monday') {
         number = 1;
-    } else if (dayOfWeek === "Tuesday") {
+    } else if (dayOfWeek === 'Tuesday') {
         number = 2;
-    } else if (dayOfWeek === "Wednesday") {
+    } else if (dayOfWeek === 'Wednesday') {
         number = 3;
-    } else if (dayOfWeek === "Thursday") {
+    } else if (dayOfWeek === 'Thursday') {
         number = 4;
-    } else if (dayOfWeek === "Friday") {
+    } else if (dayOfWeek === 'Friday') {
         number = 5;
-    } else if (dayOfWeek === "Saturday") {
+    } else if (dayOfWeek === 'Saturday') {
         number = 6;
-    } else if (dayOfWeek === "Sunday") {
+    } else if (dayOfWeek === 'Sunday') {
         number = 7;
     }
 
-    console.log(number || "error");
+    console.log(number || 'error');
 }
 
-solve("Monday");
-solve("Friday");
-solve("Invalid");
+solve('Monday');
+solve('Friday');
+solve('Invalid');

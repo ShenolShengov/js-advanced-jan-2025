@@ -1,6 +1,6 @@
 function solve(radius) {
     const radiusType = typeof radius;
-    if (radiusType !== "number") {
+    if (radiusType !== 'number') {
         console.log(
             `We can not calculate the circle area, because we receive a ${radiusType}.`
         );
@@ -11,4 +11,4 @@ function solve(radius) {
 }
 
 solve(5);
-solve("name");
+solve('name');

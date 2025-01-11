@@ -18,5 +18,5 @@ function solve(firstNum, secondNum, operation) {
     console.log(result);
 }
 
-solve(5, 6, "+");
-solve(3, 5.5, "*");
+solve(5, 6, '+');
+solve(3, 5.5, '*');

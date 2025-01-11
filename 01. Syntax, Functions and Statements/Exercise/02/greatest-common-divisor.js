@@ -1,6 +1,6 @@
 function solve(firstNum, secondNum) {
     let divisor = 10;
-    while(firstNum % divisor != 0 || secondNum % divisor != 0) {
+    while (firstNum % divisor != 0 || secondNum % divisor != 0) {
         divisor--;
     }
     console.log(divisor);

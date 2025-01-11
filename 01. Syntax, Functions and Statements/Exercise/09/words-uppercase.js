@@ -1,6 +1,11 @@
 function solve(text) {
     const regex = /\w+/g;
-    console.log(text.match(regex).map(w => w.toUpperCase()).join(', '));
+    console.log(
+        text
+            .match(regex)
+            .map((w) => w.toUpperCase())
+            .join(', ')
+    );
 }
 
 solve('Hi, How are you?');

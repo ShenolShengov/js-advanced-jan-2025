@@ -1,8 +1,10 @@
 function solve(elements) {
     const twoSmallestNum = elements
-        .sort((first, second) => (first < second ? -1 : first === second ? 0 : 1))
+        .sort((first, second) =>
+            first < second ? -1 : first === second ? 0 : 1
+        )
         .slice(0, 2);
-    console.log(twoSmallestNum.join(" "));
+    console.log(twoSmallestNum.join(' '));
 }
 
 solve([30, 15, 50, 5]);
