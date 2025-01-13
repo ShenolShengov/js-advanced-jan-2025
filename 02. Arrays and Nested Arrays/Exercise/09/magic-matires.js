@@ -1,22 +1,23 @@
 function solve(matrix) {
-    return isMagical(matrix);
+    const rowsAndColsSums = getRowsSums(matrix).concat(getColSums(matrix));
+    return rowsAndColsSums.every((rowSum) => rowSum === rowsAndColsSums[0]);
 
-    function isMagical(matrix) {
-        const isRowsMagical = matrix
-            .map((r) => r.reduce((sum, c) => sum + c, 0))
-            .every((rowSum, _, allRowsSums) => rowSum === allRowsSums[0]);
+    function getRowsSums(matrix) {
+        return matrix.map((row) =>
+            row.reduce((initialValue, el) => el + initialValue, 0)
+        );
+    }
 
-        const isColsMagical = matrix
-            .map((_, index) => {
-                let sum = 0;
-                for (let col = 0; col < matrix.length; col++) {
-                    sum += matrix[index][col];
-                }
-                return sum;
-            })
-            .every((colSum, _, allColsSums) => colSum === allColsSums[0]);
-
-        return isRowsMagical && isColsMagical;
+    function getColSums(matrix) {
+        const colSums = [];
+        for (let i = 0; i < matrix[0].length; i++) {
+            let currentColSum = 0;
+            for (let j = 0; j < matrix.length; j++) {
+                currentColSum += matrix[j][i];
+            }
+            colSums.push(currentColSum);
+        }
+        return colSums;
     }
 }
 

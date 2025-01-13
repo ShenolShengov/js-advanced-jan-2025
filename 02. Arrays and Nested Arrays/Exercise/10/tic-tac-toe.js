@@ -44,11 +44,10 @@ function solve(moves) {
         ],
     ];
 
-    moves = moves.slice(0, 9);
-
     let playerToMove = 'X';
     let isDraw = true;
     let currentGameState;
+    let movesPlays = 0;
 
     for (const move of moves) {
         const [row, col] = move.split(' ').map((e) => +e);
@@ -59,14 +58,20 @@ function solve(moves) {
             console.log('This place is already taken. Please choose another!');
             continue;
         }
+        movesPlays++;
 
         board[row][col] = playerToMove;
 
         playerToMove = playerToMove === 'X' ? 'O' : 'X';
 
         currentGameState = getGameState(board);
+        
         if (currentGameState !== 'Draw!') {
             isDraw = false;
+            break;
+        }
+
+        if (movesPlays === 9) {
             break;
         }
     }

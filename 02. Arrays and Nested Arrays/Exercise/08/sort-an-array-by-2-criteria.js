@@ -8,9 +8,7 @@ function solve(elements) {
                 : firstLength === secondLength
                 ? 0
                 : 1;
-        if (result === 0)
-            result = first.toLowerCase().localeCompare(second.toLowerCase());
-        return result;
+        return result || first.toLowerCase().localeCompare(second.toLowerCase());;
     });
     console.log(elements.join('\n'));
 }

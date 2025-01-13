@@ -23,18 +23,18 @@ function solve(matrixInput) {
     const isDiogonalsAreEquals = firstMainDiagonalSum === secondMainDiagonalSum;
 
     for (let row = 0; row < matrix.length; row++) {
-        let currentRow = '';
+        let currentRow = [];
         for (let col = 0; col < matrix[row].length; col++) {
             if (
                 isDiogonalsAreEquals &&
-                diagonalsPositions.every((p) => p[0] !== row || p[1] !== col)
+                diagonalsPositions.every((p) => !(p[0] === row && p[1] === col))
             ) {
-                currentRow += `${firstMainDiagonalSum} `;
+                currentRow.push(firstMainDiagonalSum);
             } else {
-                currentRow += `${matrix[row][col]} `;
+                currentRow.push(matrix[row][col]);
             }
         }
-        console.log(currentRow);
+        console.log(currentRow.join(' '));
     }
 
     function parseMatrix(matrixInput) {

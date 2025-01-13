@@ -1,7 +1,19 @@
 function solve(elements) {
-    return elements.filter(
-        (el, index, all) => index === 0 || el >= all[index - 1]
-    );
+
+
+    const result = [];
+    let biggest = Number.MIN_SAFE_INTEGER;
+
+    elements.forEach(num => {
+        
+        if(num >= biggest) {
+            result.push(num);
+            biggest = num;
+        }
+
+    });
+
+    return result;
 }
 
 solve([1, 3, 8, 4, 10, 12, 3, 2, 24]);
