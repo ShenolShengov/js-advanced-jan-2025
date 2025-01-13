@@ -6,16 +6,18 @@ function solve(row, col) {
 
     let rowStep = 0;
     let colStep = 1;
+    
     let currentDirection = 'right';
 
     for (let i = 0; i < row * col; i++) {
+
         matrix[rowIndex][colIndex] = i + 1;
 
-        const hasNext =
+        const hasValidNextStep =
             matrix[rowIndex + rowStep] &&
             matrix[rowIndex + rowStep][colIndex + colStep] === 0;
 
-        if (!hasNext) {
+        if (!hasValidNextStep) {
             currentDirection = changeDirection(currentDirection);
         }
 
@@ -62,11 +64,8 @@ function solve(row, col) {
 
     function createEmptyMatrix(rowCount, colCount) {
         const matrix = [];
-
         for (let i = 0; i < rowCount; i++) {
-            const emptyRow = Array(colCount);
-            emptyRow.fill(0);
-            matrix.push(emptyRow);
+            matrix.push(Array(colCount).fill(0));
         }
         return matrix;
     }
