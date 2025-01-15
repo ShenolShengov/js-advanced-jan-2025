@@ -1,29 +1,36 @@
 function solve() {
     return {
-        fighter: (name) => {
-            return {
-                name,
-                health: 100,
-                stamina: 100,
-                fight() {
-                    console.log(`${this.name} slashes at the foe!`);
-                    this.stamina--;
-                },
-            };
-        },
-
-        mage: (name) => {
-            return {
-                name,
-                health: 100,
-                mana: 100,
-                cast(spell) {
-                    console.log(`${this.name} cast ${spell}`);
-                    this.mana--;
-                },
-            };
-        },
+        mage,
+        fighter,
     };
+
+    function mage(name) {
+        return {
+            name,
+            health: 100,
+            mana: 100,
+            cast,
+        };
+    }
+
+    function cast(spell) {
+        console.log(`${this.name} cast ${spell}`);
+        this.mana--;
+    }
+
+    function fighter(name) {
+        return {
+            name,
+            health: 100,
+            stamina: 100,
+            fight,
+        };
+    }
+
+    function fight() {
+        console.log(`${this.name} slashes at the foe!`);
+        this.stamina--;
+    }
 }
 
 let create = solve();
