@@ -1,25 +1,30 @@
 function solve(productsData) {
-    const products = productsData
-        .map((d) => d.split(' : '))
-        .reduce((products, [name, price]) => {
-            const product = { name, price: +price };
-            const initialLetter = name.charAt(0);
-            products[initialLetter] ??= [];
-            products[initialLetter].push(product);
-            return products;
-        }, {});
+    const products = productsData.reduce((products, data) => {
+        const [name, price] = data.split(' : ');
+        const product = {
+            name,
+            price: +price,
+            toString() {
+                return `  ${name}: ${price}`;
+            },
+        };
+        const initialLetter = name.charAt(0);
+        products[initialLetter] ??= [];
+        products[initialLetter].push(product);
+        return products;
+    }, {});
+
+    const sortings = {
+        initialLetterAsc: (f, s) => f[0].localeCompare(s[0]),
+        stringAsc: ({ name: fName }, { name: sName }) =>
+            fName.localeCompare(sName),
+    };
 
     Object.entries(products)
-        .sort((f, s) => f[0].toLowerCase().localeCompare(s[0].toLowerCase()))
+        .sort(sortings.initialLetterAsc)
         .forEach(([initialLetter, products]) => {
             console.log(initialLetter);
-            products
-                .sort((f, s) =>
-                    f.name.toLowerCase().localeCompare(s.name.toLowerCase())
-                )
-                .forEach(({ name, price }) =>
-                    console.log(`  ${name}: ${price}`)
-                );
+            products.sort(sortings.stringAsc).forEach((p) => console.log(p.toString()));
         });
 }
 
