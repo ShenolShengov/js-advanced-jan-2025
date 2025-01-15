@@ -1,7 +1,7 @@
 function solve(heroesData) {
     const heroes = heroesData
+        .filter(e => e)
         .map((d) => d.split(' / '))
-        .filter((d) => d.length !== 1)
         .reduce((heroes, [name, level, items]) => {
             const hero = {
                 name,
@@ -18,6 +18,7 @@ solve([
     'Isacc / 25 / Apple, GravityGun',
     'Derek / 12 / BarrelVest, DestructionSword',
     'Hes / 1 / Desolator, Sentinel, Antara',
+    ''
 ]);
 
 solve(['Jake / 1000 / Gauss, HolidayGrenade']);

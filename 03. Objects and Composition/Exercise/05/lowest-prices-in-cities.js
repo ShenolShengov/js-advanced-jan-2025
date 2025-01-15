@@ -2,9 +2,9 @@ function solve(productsData) {
     const products = productsData
         .map((d) => d.split(' | '))
         .reduce((products, [townName, productName, productPrice]) => {
-            products[productName] ??= {name: productName, prices: []};
+            products[productName] ??= [];
             const priceInTown = processProductPrice(productPrice, townName);
-            products[productName].prices.push(priceInTown);
+            products[productName].push(priceInTown);
             return products;
         }, {});
 
@@ -17,8 +17,8 @@ function solve(productsData) {
         return {price: +price, townName};
     }
 
-    function getCheapestPriceForProduct(product) {
-        return product.prices.sort((f, s) =>
+    function getCheapestPriceForProduct(prices) {
+        return prices.sort((f, s) =>
             f.price < s.price ? -1 : f.price === s.price ? 0 : 1
         )[0];
     }

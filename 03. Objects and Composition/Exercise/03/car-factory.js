@@ -9,9 +9,13 @@ function solve(carData) {
     return car;
 
     function pickEngine(enginePower) {
-        if (enginePower <= 90) return createEngine(90, 1800);
-        if (enginePower <= 120) return createEngine(120, 2400);
-        if (enginePower <= 200) return createEngine(200, 3500);
+        const engines = [
+            createEngine(90, 1800),
+            createEngine(120, 2400),
+            createEngine(200, 3500)
+        ];
+
+        return engines.find(e => e.power >= enginePower);
 
         function createEngine(power, volume) {
             return { power, volume };
