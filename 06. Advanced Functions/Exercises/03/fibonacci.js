@@ -22,9 +22,6 @@ function getFibonator() {
 //     };
 // }
 
-
-
-
 let fib = getFibonator();
 console.log(fib()); // 1
 console.log(fib()); // 1

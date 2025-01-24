@@ -3,10 +3,10 @@ function getFibonator() {
     let number = 0;
 
     function fibonacci(number) {
-        if(number <= 1) {
+        if (number <= 1) {
             return number;
         }
-        if(!memoization[number]) {
+        if (!memoization[number]) {
             memoization[number] = fibonacci(number - 1) + fibonacci(number - 2);
         }
         return memoization[number];
@@ -14,9 +14,6 @@ function getFibonator() {
 
     return () => fibonacci(number++);
 }
-
-
-
 
 let fib = getFibonator();
 console.log(fib()); // 1
