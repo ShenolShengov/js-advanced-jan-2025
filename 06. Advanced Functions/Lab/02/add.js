@@ -1,5 +1,5 @@
 function solve(number) {
-    return toAdd => number + toAdd;
+    return (toAdd) => number + toAdd;
 }
 
 let add5 = solve(5);
