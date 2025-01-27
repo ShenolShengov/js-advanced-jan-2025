@@ -1,4 +1,5 @@
 function calculator() {
+    
     let firstElement = null;
     let secondElement = null;
     let resultEl = null;
