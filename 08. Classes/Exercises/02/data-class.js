@@ -1,5 +1,4 @@
 class Request {
-
     response = undefined;
     fulfilled = false;
 
