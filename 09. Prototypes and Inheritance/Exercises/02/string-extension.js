@@ -16,19 +16,32 @@
             return this.length === 0;
         },
         truncate(n) {
+            if(n <= 3){
+                return '.'.repeat(n);
+            }
+
+
             if (this.length <= n) {
                 return '' + this;
             }
+ 
+            const lastIndex = this.toString().substring(0, n - 2).lastIndexOf(" ");
 
-            const words = this.split(' ');
-            if (words.length === 1) {
-                return n < 4 ? '.'.repeat(n) : this.slice(0, n - 3) + '...';
+            if(lastIndex !== -1) {
+                return this.toString().substring(0, lastIndex) + '...';
             }
 
-            while(words.join(' ').length + 3 > n) {
-                words.pop();
-            }
-            return words.join(' ') + '...';
+            return this.toString.substring(0, n -3) + '...';
+            
+            // const words = this.split(' ');
+            // if (words.length === 1) {
+            //     return n < 4 ? '.'.repeat(n) : this.slice(0, n - 3) + '...';
+            // }
+
+            // while(words.join(' ').length + 3 > n) {
+            //     words.pop();
+            // }
+            // return words.join(' ') + '...';
         },
     };
 
