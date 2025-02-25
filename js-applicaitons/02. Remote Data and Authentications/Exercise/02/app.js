@@ -37,28 +37,29 @@ function loadContacts() {
         .then((r) => r.json())
         .then((data) => {
             html.list.phonebook.append(
-                ...Object.entries(data).map(([id, contactInfo]) =>
-                    toContactListItem(id, contactInfo)
+                ...Object.entries(data).map(([_, contactInfo]) =>
+                    toContactListItem(contactInfo)
                 )
             );
         });
 }
 
-function toContactListItem(id, contactInfo) {
+function toContactListItem(contactInfo) {
     const item = document.createElement('li');
     item.textContent = `${contactInfo.person}: ${contactInfo.phone}`;
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = 'Delete';
     deleteBtn.addEventListener('click', deleteContact);
-    deleteBtn.dataset.id = id;
+    deleteBtn.dataset.id = contactInfo._id;
     item.append(deleteBtn);
     return item;
 }
 
 function deleteContact() {
     const id = this.dataset.id;
+    this.closest('li').remove();
     fetch(url + `/${id}`, {
-        method: 'delete',
+        method: 'delete' 
     });
 }
 

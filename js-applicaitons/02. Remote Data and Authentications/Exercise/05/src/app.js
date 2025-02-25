@@ -38,8 +38,10 @@ const urls = {
     deleteCatch: 'http://localhost:3030/data/catches',
 };
 
+const authorizationHeaders = new Headers();
+
 function setUp() {
-    localStorage.clear();
+    checkAutorization();
     attachNavBarLinkEvents();
     html.main.append(html.pages.home);
     html.forms.register.addEventListener('submit', registerUser);
@@ -49,6 +51,17 @@ function setUp() {
     html.forms.addCatch.addEventListener('submit', addCatch);
 }
 
+function checkAutorization() {
+    if (localStorage.getItem('accessToken')) {
+        toggleGuestButtons();
+        togglelUserButtons();
+        showUserEmail();
+        toggleAddButton();
+        loadCatches();
+        authorizationHeaders.append('x-Authorization', localStorage.getItem('accessToken'));
+    }
+}
+
 function addCatch(e) {
     e.preventDefault();
     const data = extractInputsValues(this);
@@ -56,16 +69,9 @@ function addCatch(e) {
     this.reset();
     fetch(urls.newCatch, {
         method: 'post',
-        headers: headresWithAuthorizationToken(),
+        headers: authorizationHeaders,
         body: JSON.stringify(data),
     });
-}
-
-function headresWithAuthorizationToken() {
-    const headers = new Headers();
-    const accessToken = JSON.parse(localStorage.getItem('user')).accessToken;
-    headers.append('X-Authorization', accessToken);
-    return headers;
 }
 
 function loadCatches() {
@@ -78,7 +84,9 @@ function loadCatches() {
 }
 
 function toCatchElement(data) {
-    const isUserOwner = getUserId() === data._ownerId;
+    console.log(data);
+    const isUserOwner = getUserId() === null ? false : getUserId() === data._ownerId;
+    console.log(getUserId(), data._ownerId);
     const catchEl = createElement('div', { className: 'catch' });
     createElement('label', { textContent: 'Angler' }, catchEl);
     createElement('input', { type: 'text', className: 'angler', value: data.angler, disabled: !isUserOwner }, catchEl);
@@ -139,46 +147,38 @@ function toCatchElement(data) {
     return catchEl;
 }
 
-function deleteCatch() {
-    const id = this.dataset.id;
-    fetch(urls.deleteCatch + `/${id}`, {
+function deleteCatch(e) {
+    const id = e.target.dataset.id;
+    fetch(`http://localhost:3030/data/catches/${id}`, {
         method: 'delete',
-        headers: headresWithAuthorizationToken()
-    })
-        .then(loadCatches);
+        headers: authorizationHeaders,
+    });
 }
 
-function updateCatch() {
-    const id = this.dataset.id;
+function updateCatch(e) {
+    const id = e.target.dataset.id;
     const data = extractInputsValues(this.closest('.catch'), []);
-    fetch(urls.updateCatch + `/${id}`, {
+    fetch(urls.updateCatch + '/' + id, {
         method: 'put',
-        headers: headresWithAuthorizationToken(),
-        body: JSON.stringify(data)
-    }).then(loadCatches);//possible remove for performance
-}
-
-function isLoggedUser() {
-    return localStorage.getItem('user') !== null;
+        headers: authorizationHeaders,
+        body: JSON.stringify(data),
+    }).then(r => console.log(r));
 }
 
 function getUserId() {
-    if (!isLoggedUser()) return null;
-    return JSON.parse(localStorage.getItem('user'))._id;
+    return localStorage.getItem('_id') || null;
 }
 
 function logoutUser() {
     toggleGuestButtons();
     togglelUserButtons();
     hideUserEmail();
-    loadCatches(); //remove for performance
-    changePage('home');
-    localStorage.removeItem('user');
+    loadCatches();
     toggleAddButton();
     fetch(urls.logout, {
-        method: 'post',
-        headers: headresWithAuthorizationToken()
-    })
+        headers: authorizationHeaders,
+    });
+    localStorage.clear();
 }
 
 function toggleAddButton() {
@@ -192,23 +192,26 @@ function loginUser(e) {
         method: 'post',
         body: JSON.stringify(data),
     })
-        .then((r) => r.json())
-        .then((data) => {
-            if (data.hasOwnProperty('code')) {
-                throw new Error(data.message);
+        .then((r) => {
+            if(!r.ok) {
+                showFormErorMessage('Not valid credentials', this);
+                return null;
             }
+            return r.json();
+        })
+        .then((data) => {
+            if(!data) return;
             resetForm(this);
-            localStorage.setItem('user', JSON.stringify(data));
+            localStorage.setItem('accessToken', data.accessToken);
+            localStorage.setItem('_id', data._id);
+            localStorage.setItem('email', data.email);
             toggleGuestButtons();
             togglelUserButtons();
             showUserEmail();
             toggleAddButton();
             loadCatches(); //remove for performance
             changePage('home');
-        })
-        .catch((err) => {
-            console.error(err);
-            showFormErorMessage(err, this);
+            authorizationHeaders.append('x-Authorization', localStorage.getItem('accessToken'));
         });
 }
 
@@ -222,8 +225,7 @@ function toggleGuestButtons() {
 }
 
 function showUserEmail() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    html.userEmailSpan.textContent = user.email;
+    html.userEmailSpan.textContent = localStorage.getItem('email');
 }
 
 function hideUserEmail() {
@@ -235,49 +237,45 @@ function resetForm(form) {
     form.querySelector('.notification').textContent = '';
 }
 
-function showFormErorMessage(error, form) {
-    form.querySelector('.notification').textContent = error.message;
+function showFormErorMessage(message, form) {
+    form.querySelector('.notification').textContent = message;
 }
 
 function registerUser(e) {
     e.preventDefault();
-    const data = extractInputsValues(this, ['resPass']);
+    const data = extractInputsValues(e.target);
+    delete data.resPass;
+    if (Object.values(data).some((d) => d === '')) {
+        return;
+    }
     fetch(urls.register, {
         method: 'post',
         body: JSON.stringify(data),
     })
-        .then((r) => r.json())
-        .then((data) => {
-            if (data.hasOwnProperty('code')) {
-                throw new Error(data.message);
+        .then((r) => {
+            if(!r.ok) {
+                 showFormErorMessage('Not valid register data', this);
+                 return
             }
+            return r.json();
+        })
+        .then(() => {
             resetForm(this);
             changePage('home');
         })
-        .catch((err) => {
-            showFormErorMessage(err, this);
-        });
 }
 
-function extractInputsValues(container, skipProperties) {
+function extractInputsValues(container) {
     if (container.matches('form')) {
         return [...new FormData(container)].reduce((data, [key, vaule]) => {
-            if (skipProperties && skipProperties.includes(key)) {
-                return data;
-            }
             data[key] = vaule;
             return data;
         }, {});
     }
-    return [...container.querySelectorAll('input')]
-            .reduce((data, input) => {
-                if(skipProperties.includes(input.name)) {
-                    return data;
-                }
-                data[input.className] = input.value;
-                return data;
-            },{});  
-
+    return [...container.querySelectorAll('input')].reduce((data, input) => {
+        data[input.className] = input.value;
+        return data;
+    }, {});
 }
 
 function attachNavBarLinkEvents() {
