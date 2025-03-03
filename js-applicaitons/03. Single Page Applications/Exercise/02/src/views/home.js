@@ -1,14 +1,21 @@
 import redirect from '../router.js';
 import { isLoggedIn } from '../user.js';
+import {
+    attachPaginationToUrl,
+    createPagationSettings,
+    resetPagitationSettings,
+    updatePaginationSettings,
+} from '../utils/pagitanion.js';
 
 const container = document.getElementById('container');
-const baseUrl = 'http://localhost:3030/data/movies';
+const baseUrl = `http://localhost:3030/data/movies`;
+const pagitanionSettings = createPagationSettings();
 
 export default function homePage() {
-    const homePage = document.createElement('section');
-    homePage.id = 'home-page';
-    homePage.classList = 'view-section';
-    homePage.innerHTML = `
+    const homeSection = document.createElement('section');
+    homeSection.id = 'home-page';
+    homeSection.classList = 'view-section';
+    homeSection.innerHTML = `
         <div class="jumbotron jumbotron-fluid text-light" style="background-color: #343a40">
             <img
                 src="https://slicksmovieblog.files.wordpress.com/2014/08/cropped-movie-banner-e1408372575210.jpg"
@@ -24,7 +31,7 @@ export default function homePage() {
         ${
             isLoggedIn()
                 ? `<section id="add-movie-button" class="user">
-                      <a href="#" class="btn btn-warning">Add Movie</a>
+                      <a href="/add-movie" class="btn btn-warning">Add Movie</a>
                   </section> `
                 : ''
         }
@@ -37,29 +44,36 @@ export default function homePage() {
             </div>
         </section>
     `;
-    const movieList = homePage.querySelector('#movies-list');
+    const movieList = homeSection.querySelector('#movies-list');
 
+    resetPagitationSettings(pagitanionSettings);
     renderMovies(movieList);
-
     movieList.addEventListener('click', showMoviesDedatils);
 
-    container.appendChild(homePage);
+    const addMovieBtn = homeSection.querySelector('#add-movie-button');
+    addMovieBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        redirect('/add-movie');
+    });
+
+    container.appendChild(homeSection);
 }
 
 function showMoviesDedatils(e) {
     e.preventDefault();
-    if(!e.target.matches('.btn-info')) {
+    if (!e.target.matches('.btn-info')) {
         return;
     }
     const movie = e.target.closest('li');
-    redirect('/movie-details', {id: movie.dataset.id});
+    redirect('/movie-details', { id: movie.dataset.id });
 }
 
 function renderMovies(movieList) {
-    fetch(baseUrl)
+    const url = attachPaginationToUrl(baseUrl, pagitanionSettings);
+    fetch(url)
         .then((r) => r.json())
         .then((data) => {
-            data.forEach(({ title, img, _id}) => {
+            data.slice(1).forEach(({ title, img, _id }) => {
                 const movie = document.createElement('li');
                 movie.classList = 'card mb-4';
                 movie.dataset.id = _id;
@@ -69,11 +83,13 @@ function renderMovies(movieList) {
                         <h4 class="card-title">${title}</h4>
                         <a href="#"> </a>
                     </div>
+
                     <div class="card-footer">
                         <button type="button" class="btn btn-info">Details</button>
                     </div>
                 `;
                 movieList.appendChild(movie);
             });
+            updatePaginationSettings(pagitanionSettings, data.length, 'next');
         });
 }

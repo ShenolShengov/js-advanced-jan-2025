@@ -7,10 +7,10 @@ const container = document.getElementById('container');
 const baseUrl = 'http://localhost:3030/users/login';
 
 export default function loginPage() {
-    const login = document.createElement('section');
-    login.id = 'form-login';
-    login.classList = 'view-section';
-    login.innerHTML = `
+    const loginSection = document.createElement('section');
+    loginSection.id = 'form-login';
+    loginSection.classList = 'view-section';
+    loginSection.innerHTML = `
         <form id="login-form" class="text-center border border-light p-5" action="" method="post">
             <div class="form-group">
                 <label for="email">Email</label>
@@ -30,9 +30,9 @@ export default function loginPage() {
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
     `;
-    const loginForm = login.querySelector('#login-form');
+    const loginForm = loginSection.querySelector('#login-form');
     loginForm.addEventListener('submit', loginUser);
-    container.appendChild(login);
+    container.appendChild(loginSection);
 }
 
 function loginUser(e) {
@@ -57,9 +57,10 @@ function loginUser(e) {
             }
             return r.json();
         })
-        .then(({ email, accessToken }) => {
+        .then(({ email, accessToken, _id}) => {
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('userEmail', email);
+            localStorage.setItem('userId', _id);
             renderNavigaiton()
             redirect('/');
         })

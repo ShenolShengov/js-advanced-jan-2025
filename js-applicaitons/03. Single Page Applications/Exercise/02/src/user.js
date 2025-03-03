@@ -5,3 +5,12 @@ export function isLoggedIn() {
 export function email() {
     return localStorage.getItem('userEmail');
 }
+
+export function accessToken() {
+    return localStorage.getItem('accessToken');
+
+}
+
+export function userId() {
+    return localStorage.getItem('userId');
+}

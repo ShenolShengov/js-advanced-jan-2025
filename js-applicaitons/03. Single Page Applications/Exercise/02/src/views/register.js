@@ -7,10 +7,10 @@ const container = document.getElementById('container');
 const baseUrl = 'http://localhost:3030/users/register';
 
 export default function registerPage() {
-    const register = document.createElement('section');
-    register.id = 'form-sign-up';
-    register.classList = 'view-section';
-    register.innerHTML = `
+    const registerSection = document.createElement('section');
+    registerSection.id = 'form-sign-up';
+    registerSection.classList = 'view-section';
+    registerSection.innerHTML = `
         <form id="register-form" class="text-center border border-light p-5" action="" method="">
             <div class="form-group">
                 <label for="email">Email</label>
@@ -43,9 +43,9 @@ export default function registerPage() {
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
     `;
-    const registerForm = register.querySelector('#register-form');
+    const registerForm = registerSection.querySelector('#register-form');
     registerForm.addEventListener('submit', registerUser);
-    container.appendChild(register);
+    container.appendChild(registerSection);
 }
 
 function registerUser(e) {
@@ -70,9 +70,10 @@ function registerUser(e) {
             }
             return r.json();
         })
-        .then(({email, accessToken}) => {
-            // localStorage.setItem('accessToken', accessToken);
-            // localStorage.setItem('userEmail', email);
+        .then(({email, accessToken, _id}) => {
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('userEmail', email);
+            localStorage.setItem('userId', _id);
             renderNavigaiton();
             redirect('/');
         })

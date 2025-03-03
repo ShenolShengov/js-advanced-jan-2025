@@ -44,7 +44,7 @@ function guestItems() {
 function loggedUserItems() {
     return `
         <li class="nav-item user">
-            <a class="nav-link" id="welcome-msg">Welcome, ${email()}</a>
+            <a class="nav-link" href="/" id="welcome-msg">Welcome, ${email()}</a>
         </li>
         <li class="nav-item user">
             <a class="nav-link" href="/logout">Logout</a>

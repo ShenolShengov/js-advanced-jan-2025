@@ -1,7 +1,7 @@
 import redirect from './router.js';
-import renderNavigaiton from './utils/navigation.js';
+import renderNavigation from './utils/navigation.js';
 
 
-renderNavigaiton();
+renderNavigation();
 redirect('/');
 // renderFooter();
