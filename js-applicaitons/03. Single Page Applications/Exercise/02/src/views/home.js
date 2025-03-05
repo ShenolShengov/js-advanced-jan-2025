@@ -1,15 +1,8 @@
 import redirect from '../router.js';
 import { isLoggedIn } from '../user.js';
-import {
-    attachPaginationToUrl,
-    createPagationSettings,
-    resetPagitationSettings,
-    updatePaginationSettings,
-} from '../utils/pagitanion.js';
 
 const container = document.getElementById('container');
 const baseUrl = `http://localhost:3030/data/movies`;
-const pagitanionSettings = createPagationSettings();
 
 export default function homePage() {
     const homeSection = document.createElement('section');
@@ -46,7 +39,6 @@ export default function homePage() {
     `;
     const movieList = homeSection.querySelector('#movies-list');
 
-    resetPagitationSettings(pagitanionSettings);
     renderMovies(movieList);
     movieList.addEventListener('click', showMoviesDedatils);
 
@@ -69,11 +61,10 @@ function showMoviesDedatils(e) {
 }
 
 function renderMovies(movieList) {
-    const url = attachPaginationToUrl(baseUrl, pagitanionSettings);
-    fetch(url)
+    fetch(baseUrl)
         .then((r) => r.json())
         .then((data) => {
-            data.slice(1).forEach(({ title, img, _id }) => {
+            data.forEach(({ title, img, _id }) => {
                 const movie = document.createElement('li');
                 movie.classList = 'card mb-4';
                 movie.dataset.id = _id;
@@ -90,6 +81,5 @@ function renderMovies(movieList) {
                 `;
                 movieList.appendChild(movie);
             });
-            updatePaginationSettings(pagitanionSettings, data.length, 'next');
         });
 }

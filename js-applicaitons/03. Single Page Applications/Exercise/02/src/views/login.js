@@ -1,5 +1,4 @@
 import redirect from '../router.js';
-import { displayError, removeError } from '../utils/errors.js';
 import renderNavigaiton from '../utils/navigation.js';
 import validate from '../utils/validator.js';
 
@@ -38,9 +37,8 @@ export default function loginPage() {
 function loginUser(e) {
     e.preventDefault();
     const loginData = Object.fromEntries(new FormData(this));
-    removeError(this);
     if (!validate(loginData)) {
-        displayError('Invalid credentials', this);
+        alert('Invalid credentials');
         return;
     }
     const { email, password } = loginData;
@@ -64,5 +62,5 @@ function loginUser(e) {
             renderNavigaiton()
             redirect('/');
         })
-        .catch((err) => displayError(err.message, this));
+        .catch((err) => alert(err.message));
 }

@@ -1,7 +1,5 @@
 import redirect from '../router.js';
-import { displayError, removeError } from '../utils/errors.js';
 import renderNavigaiton from '../utils/navigation.js';
-import validate from '../utils/validator.js';
 
 const container = document.getElementById('container');
 const baseUrl = 'http://localhost:3030/users/register';
@@ -50,13 +48,11 @@ export default function registerPage() {
 
 function registerUser(e) {
     e.preventDefault();
-    const registerData = Object.fromEntries(new FormData(this));
-    removeError(this);
-    if (!validate(registerData)) {
-        displayError('Invalid register data', this);
+    const {email, password} = Object.fromEntries(new FormData(this));
+    if (email === '' || password === '') {
+        alert('Invalid register data');
         return;
     }
-    const {email, password} = registerData;
     fetch(baseUrl, {
         method: 'post',
         body: JSON.stringify({
@@ -70,12 +66,9 @@ function registerUser(e) {
             }
             return r.json();
         })
-        .then(({email, accessToken, _id}) => {
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('userEmail', email);
-            localStorage.setItem('userId', _id);
+        .then(() => {
             renderNavigaiton();
             redirect('/');
         })
-        .catch((err) => displayError(err.message, this));
+        .catch((err) => alert(err.message));
 }

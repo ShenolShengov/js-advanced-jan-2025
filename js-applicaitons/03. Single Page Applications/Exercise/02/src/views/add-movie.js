@@ -1,6 +1,5 @@
 import redirect from '../router.js';
 import { autorizationHeaders } from '../utils/autorization.js';
-import { displayError, removeError } from '../utils/errors.js';
 import validate from '../utils/validator.js';
 
 const container = document.getElementById('container');
@@ -36,9 +35,8 @@ export default function addMoviePage() {
 function addMovie(e) {
     e.preventDefault();
     const movieData = Object.fromEntries(new FormData(this));
-    removeError(this);
     if (!validate(movieData)) {
-        displayError('Invalid movie data', this);
+        alert('Invalid movie data');
         return;
     }
     fetch(baseUrl, {
@@ -47,5 +45,5 @@ function addMovie(e) {
         body: JSON.stringify(movieData),
     })
         .then(() => redirect('/'))
-        .catch(() => displayError('Unexpected error!', this));
+        .catch(() => alert('Unexpected error!'));
 }

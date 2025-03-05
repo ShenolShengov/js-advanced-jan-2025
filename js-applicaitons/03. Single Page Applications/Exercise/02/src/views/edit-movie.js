@@ -1,6 +1,5 @@
 import redirect from "../router.js";
 import { autorizationHeaders } from "../utils/autorization.js";
-import { displayError, removeError } from "../utils/errors.js";
 import validate from "../utils/validator.js";
 
 const container = document.getElementById('container');
@@ -61,7 +60,7 @@ export default function editMovePage({id}) {
             editMovieForm.addEventListener('submit', editMovie);
             container.appendChild(editMovieSection);
         })
-        .catch((e) => displayError(e.message, container));
+        .catch((e) => alert(e.message));
 }
 
 function editMovie(e) {
@@ -69,9 +68,8 @@ function editMovie(e) {
     console.log(this);
     const movieId = this.dataset.id;
     const movieData = Object.fromEntries(new FormData(this));
-    removeError(this);
     if(!validate(movieData)) {
-        displayError('Invalid movie data', this);
+        alert('Invalid movie data');
         return;
     }
     fetch(baseUrl(movieId), {
@@ -86,5 +84,5 @@ function editMovie(e) {
             return r.json();
         })
         .then(() => redirect('/movie-details', {id: movieId}))
-        .catch(err => displayError(err.message), this);
+        .catch(err => alert(err.message));
 }

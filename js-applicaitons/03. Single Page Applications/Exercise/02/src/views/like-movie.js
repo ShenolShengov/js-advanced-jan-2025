@@ -1,5 +1,4 @@
 import { autorizationHeaders } from '../utils/autorization.js';
-import { displayError } from '../utils/errors.js';
 
 const baseUrl = 'http://localhost:3030/data/likes';
 const movieLikeCountUrl = (id) =>
@@ -20,7 +19,7 @@ export default function likeMovie(id) {
             }
             showMovieLikeCount(movieDetailsSection, id);
         })
-        .catch((err) => displayError(err.message), movieDetailsSection);
+        // .catch((err) => alert(err.message));
 }
 
 function showMovieLikeCount(movieDetailsSection, id) {
@@ -33,11 +32,9 @@ function showMovieLikeCount(movieDetailsSection, id) {
             return r.text();
         })
         .then((likes) => {
-            const showLikeSpan = document.createElement('span');
-            showLikeSpan.classList = 'enrolled-span';
+            const showLikeSpan = movieDetailsSection.querySelector('.enrolled-span');
             showLikeSpan.textContent = `Liked ${likes}`;
-            likeButton.after(showLikeSpan);
             likeButton.remove();
         })
-        .catch((err) => displayError(err.message), movieDetailsSection);
+        .catch((err) => alert(err.message), movieDetailsSection);
 }

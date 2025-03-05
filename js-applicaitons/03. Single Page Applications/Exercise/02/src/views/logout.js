@@ -1,6 +1,5 @@
 import redirect from '../router.js';
 import { autorizationHeaders } from '../utils/autorization.js';
-import { displayError, removeError } from '../utils/errors.js';
 import renderNavigaiton from '../utils/navigation.js';
 
 const baseUrl = 'http://localhost:3030/users/lougout';
@@ -12,11 +11,11 @@ export default function logout() {
         headers: autorizationHeaders()
     })
         .then(() => {
-            removeError(container);
             localStorage.removeItem('accessToken');
             localStorage.removeItem('userEmail');
+            localStorage.removeItem('userId');
             renderNavigaiton();
             redirect('/');
         })
-        .catch((err) => displayError(err.message, container));
+        .catch((err) => alert(err.message, container));
 }
