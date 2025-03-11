@@ -29,7 +29,7 @@ function homePageTemplate(furnitures) {
     `;
 }
 
-function furnitureTemplate({ description, img, price, _id}) {
+export function furnitureTemplate({ description, img, price, _id}) {
     return html`
         <div class="col-md-4">
             <div class="card text-white bg-primary">

@@ -16,7 +16,6 @@ async function getFurniture(id) {
 }
 
 function isOwner(ownerId) {
-    console.log(ownerId);
     return id() === ownerId;
 }
 
@@ -45,7 +44,7 @@ function furnitureDetailsTemplate({ make, model, description, img, year, price, 
                     <p>Material: <span>${material}</span></p>
                     ${isOwner
                         ? html`<div>
-                              <a href="”#”" class="btn btn-info">Edit</a>
+                              <a href="/edit/${_id}" class="btn btn-info">Edit</a>
                               <a href="/delete/${_id}" class="btn btn-red">Delete</a>
                           </div>`
                         : ''}
